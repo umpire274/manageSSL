@@ -1,18 +1,31 @@
 from Classes.CertificateAuthority import CertificateAuthority
 from Classes.CertificateCSRGenerator import CertificateCSRGenerator
 from Classes.CertificateGenerator import CertificateGenerator
+from Classes.CertificateUtilities import CertificateUtilities
 
 menu_options = {
     1: 'Create new CA Certificate',
     2: 'Create new Certificate Request',
     3: 'Create new Certificate',
-    4: 'Exit',
+    4: 'Certificates Utilities',
+    9: 'Exit',
+}
+
+utilities_options = {
+    1: 'Check Certificate Request',
+    2: 'Check Certificate',
+    9: 'Back',
 }
 
 
 def print_menu():
     for key in menu_options.keys():
         print(key, '--', menu_options[key])
+
+
+def print_submenu():
+    for key in utilities_options.keys():
+        print(key, '--', utilities_options[key])
 
 
 def text(text_to_print, num_of_dots, num_of_loops):
@@ -85,6 +98,7 @@ if __name__ == "__main__":
                 else:
                     print('\n\n-----------------------\nCreation new CA aborted\n-----------------------\n\n')
                     clear_screen(2)
+                pass
             case 2:
                 print('\n\n')
                 # Request to user of parameters for new CA
@@ -112,6 +126,7 @@ if __name__ == "__main__":
                 text('Creating new CSR request', 5, 2)
                 print('Done.')
                 clear_screen(2)
+                pass
             case 3:
                 generator = CertificateGenerator()
                 generator.check_ca_ready()
@@ -126,8 +141,28 @@ if __name__ == "__main__":
                 print(f"Certificate saved to {generator.crt_file}")
                 print("-----------------------------------------\n")
                 clear_screen(2)
+                pass
             case 4:
+                cert_utils = CertificateUtilities()
+                while True:
+                    print_submenu()
+                    suboption = int(input('Enter your choice: '))
+                    match suboption:
+                        case 1:
+                            csr_file = input('Enter the name of certificate request to check: ')
+                            if csr_file:
+                                cert_utils.check_certificate_request(csr_file)
+                            pass
+                        case 2:
+                            crt_file = input('Enter the name of certificate to check: ')
+                            if crt_file:
+                                cert_utils.check_certificate(crt_file)
+                            pass
+                        case 9:
+                            break
+                pass
+            case 9:
                 print("\n-------------------\nThank you for using")
-                exit(0)
+                break
             case _:
                 print("Invalid input")
