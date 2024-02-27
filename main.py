@@ -1,4 +1,5 @@
 from Classes.CertificateAuthority import CertificateAuthority
+from Classes.CertificateCSRGenerator import CertificateCSRGenerator
 
 menu_options = {
     1: 'Create new CA Certificate',
@@ -84,7 +85,32 @@ if __name__ == "__main__":
                     print('\n\n-----------------------\nCreation new CA aborted\n-----------------------\n\n')
                     clear_screen(2)
             case 2:
+                print('\n\n')
+                # Request to user of parameters for new CA
+                bites = int(
+                    input_con_default('Enter the length of the encryption of the private key (in bites) [2048]: ',
+                                      '2048'))
+                country = input_con_default('Enter the COUNTRY (two character format like IT) []: ', '')
+                state = input_con_default('Enter the STATE or PROVINCE (two character format like RM) []: ', '')
+                locality = input_con_default('Enter the CITY []: ', '')
+                org = input_con_default('Enter the ORGANIZATION []: ', '')
+                orgunit = input_con_default('Enter the ORGANIZATIONAL UNIT []: ', '')
+                commonname = input_con_default('Enter the COMMON NAME of the CA []: ', '')
+                print('\n')
+                generator = CertificateCSRGenerator(
+                    key_length=bites,
+                    country_name=country,
+                    state_name=state,
+                    locality_name=locality,
+                    org_name=org,
+                    org_unit_name=orgunit,
+                    common_name=commonname
+                )
+                private_key = generator.generate_private_key(commonname)
+                csr = generator.generate_csr(private_key, commonname)
                 text('Creating new CSR request', 5, 2)
+                print('Done.')
+                clear_screen(2)
             case 3:
                 text('Creating new Certificate', 5, 2)
             case 4:
