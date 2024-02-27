@@ -1,5 +1,6 @@
 from Classes.CertificateAuthority import CertificateAuthority
 from Classes.CertificateCSRGenerator import CertificateCSRGenerator
+from Classes.CertificateGenerator import CertificateGenerator
 
 menu_options = {
     1: 'Create new CA Certificate',
@@ -112,7 +113,19 @@ if __name__ == "__main__":
                 print('Done.')
                 clear_screen(2)
             case 3:
+                generator = CertificateGenerator()
+                generator.check_ca_ready()
+                csr_file = input("Enter the CSR file name (without extension): ")
+                # print_csr_info(csr_file)
+                # validate_csr()
+                valid_days = input_con_default('Enter the expiration (days) of the certificate [365]: ', '365')
+                generator.generate_certificate(csr_file, valid_days)
                 text('Creating new Certificate', 5, 2)
+                print('Done.\n')
+                print("-----------------------------------------")
+                print(f"Certificate saved to {generator.crt_file}")
+                print("-----------------------------------------\n")
+                clear_screen(2)
             case 4:
                 print("\n-------------------\nThank you for using")
                 exit(0)
