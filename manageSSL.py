@@ -8,23 +8,27 @@ menu_options = {
     2: 'Create new Certificate Request',
     3: 'Create new Certificate',
     4: 'Certificates Utilities',
-    9: 'Exit',
+    0: 'Exit',
 }
 
 utilities_options = {
     1: 'Check Certificate Request',
     2: 'Check Certificate',
-    9: 'Back',
+    0: 'Back',
 }
 
 
 def print_menu():
     for key in menu_options.keys():
+        if key == 0:
+            print("-----------------------")
         print(key, '--', menu_options[key])
 
 
 def print_submenu():
     for key in utilities_options.keys():
+        if key == 0:
+            print("---------------------------")
         print(key, '--', utilities_options[key])
 
 
@@ -63,12 +67,13 @@ def input_con_default(prompt, default):
 
 if __name__ == "__main__":
 
-    print("Hello Administrator.\n")
-    print("Operations on OpenSSL")
-    print("---------------------")
+    print("\nHello Administrator.")
 
     while True:
+        print("\nOperations with OpenSSL")
+        print("-----------------------")
         print_menu()
+        print("-----------------------")
         option = int(input('Enter your choice: '))
         match option:
             case 1:
@@ -145,7 +150,10 @@ if __name__ == "__main__":
             case 4:
                 cert_utils = CertificateUtilities()
                 while True:
+                    print("\nUtilities with Certificates")
+                    print("---------------------------")
                     print_submenu()
+                    print("---------------------------")
                     suboption = int(input('Enter your choice: '))
                     match suboption:
                         case 1:
@@ -158,10 +166,10 @@ if __name__ == "__main__":
                             if crt_file:
                                 cert_utils.check_certificate(crt_file)
                             pass
-                        case 9:
+                        case 0:
                             break
                 pass
-            case 9:
+            case 0:
                 print("\n-------------------\nThank you for using")
                 break
             case _:
